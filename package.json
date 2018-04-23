@@ -1,0 +1,26 @@
+{
+  "name": "realtime-faye",
+  "version": "0.0.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JSbotHQ/RealTime-Faye.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JSbotHQ/RealTime-Faye/issues"
+  },
+  "homepage": "https://github.com/JSbotHQ/RealTime-Faye#readme",
+  "dependencies": {
+    "body-parser": "^1.0.2",
+    "express": "^4.16.3",
+    "faye": "^1.0.3",
+    "morgan": "^1.1.1"
+  },
+  "devDependencies": {},
+  "description": ""
+}
