@@ -6,29 +6,28 @@
     <script src="http://localhost:8000/faye/client.js"></script>
     <script>
 
-    var client = new Faye.Client('http://localhost:8000/faye')
+    const client = new Faye.Client('http://localhost:8000/faye')
 
-        $(document).ready(function () {
-            $("#submit-btn").click(function (evt) {
+    const newmessage = (newMessage) => {
+        $("#messages-list").append("<li>" + newMessage.text + "</li>")
+    }
+
+        $(document).ready( () => {
+            $("#submit-btn").click( (evt) => {
                 evt.preventDefault()
-                var newMessage = $("#new-message").val()
+                const newMessage = $("#new-message").val()
 
                 /**
                  * publish new massage to channel(/messages)
                  */
-                client.publish("/messages", {
-                    text: newMessage
-                })
+                client.publish("/messages", { text: newMessage })
             })
 
             /**
              * client to SUBSCRIBE
              * messages coming into the same channel (/messages)
              */
-            client.subscribe("/messages", function(newMessage) {
-                $("#messages-list").append("<li>" + newMessage.text + "</li>")
-            })
-
+            client.subscribe("/messages", newmessage)
         })
     </script>
 </head>
