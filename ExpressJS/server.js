@@ -13,7 +13,7 @@ app.use(express.static(__dirname + '/public'))
 var client = new faye.Client('http://localhost:8000/faye')
 
 /**
- * the client to SUBSCRIBE (listen in)
+ * client to SUBSCRIBE (listen in server)
  * messages coming into the same CHANNEL (/messages)
  */
 client.subscribe('/messages', function (newMessage) {
