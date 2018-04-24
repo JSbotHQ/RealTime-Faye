@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title><%= title %></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://localhost:8000/faye/client.js"></script>
+    <script>
+
+    var client = new Faye.Client('http://localhost:8000/faye')
+
+        $(document).ready(function () {
+            $("#submit-btn").click(function (evt) {
+                evt.preventDefault()
+                var newMessage = $("#new-message").val()
+
+                /**
+                 * publish new massage to channel(/messages)
+                 */
+                client.publish("/messages", {
+                    text: newMessage
+                })
+            })
+
+            /**
+             * the client to SUBSCRIBE (listen in)
+             * messages coming into the same CHANNEL (/messages)
+             */
+            client.subscribe("/messages", function(newMessage) {
+                $("#messages-list").append("<li>" + newMessage.text + "</li>")
+            })
+
+        })
+    </script>
+</head>
+<body>
+<form>
+    <input type="text" id="new-message" placeholder="Your Message Here" />
+    <input type="submit" id="submit-btn" value="Enter" />
+</form>
+<h4>Messages:</h4>
+<ul id="messages-list">
+</ul>
+</body>
+</html>

@@ -1,32 +1,24 @@
+const  express = require('express'),
+       app = express()
 
-var http       = require('http'),
-    express    = require('express'),
-    bodyParser = require ('body-parser'),
-    morgan     = require ('morgan'),
-    faye       = require('faye');
+var http = require('http'),
+    faye = require('faye');
 
+var server = http.createServer(app),
+        
+    bayeux = new faye.NodeAdapter({mount: '/faye', timeout: 45});
 
-var bayeux = new faye.NodeAdapter({
-    mount:    '/faye',
-    timeout:  45
-});
+app.use(express.static(__dirname + '/public'))
 
+var client = new faye.Client('http://localhost:8000/faye')
 
-var app = express();
-var server = http.createServer(app);
+/**
+ * the client to SUBSCRIBE (listen in)
+ * messages coming into the same CHANNEL (/messages)
+ */
+client.subscribe('/messages', function (newMessage) {
+  console.log("New Message: ", newMessage)
+ });
 
 bayeux.attach(server);
-
-app.use(morgan());
-app.use(bodyParser());
-app.use(express.static(__dirname + '/public'));
-
-app.post('/message', function(req, res) {
-    bayeux.getClient().publish('/channel', {text: req.body.message});
-    res.sendStatus(200);
-});
-
-var port = process.env.port || 8000;
-server.listen(port);
-console.log('Server up and listening on port ' + port);
-
+server.listen(8000);
