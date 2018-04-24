@@ -23,7 +23,7 @@
 
             /**
              * client to SUBSCRIBE
-             * messages coming into the same CHANNEL (/messages)
+             * messages coming into the same channel (/messages)
              */
             client.subscribe("/messages", function(newMessage) {
                 $("#messages-list").append("<li>" + newMessage.text + "</li>")
