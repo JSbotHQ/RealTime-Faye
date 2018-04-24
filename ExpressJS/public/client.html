@@ -3,38 +3,48 @@
 <head>
     <title><%= title %></title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="http://localhost:8000/faye/client.js"></script>
+    <script src="/faye/client.js"></script>
     <script>
 
-    const client = new Faye.Client('http://localhost:8000/faye')
+        const client = new Faye.Client('http://' + window.location.hostname + ':8000/faye')
 
-    const newmessage = (newMessage) => {
-        $("#messages-list").append("<li>" + newMessage.text + "</li>")
-    }
+        const newmessage = (newMessage) => {
+            $("#messages-list").append("<li>" + newMessage.text + "</li>")
+        }
 
-        $(document).ready( () => {
-            $("#submit-btn").click( (evt) => {
+        const updateOnlineUsers =  (data)=>{
+            $('#online').empty()
+            Object.keys(data.data).forEach(function(key) {
+                $('#online').append('<li onclick="display($(this))">'+data.data[key]+'</li>');
+            });
+        };
+        /**
+         * client to SUBSCRIBE
+         * messages coming into the same channel (/messages)
+         */
+        client.subscribe("/messages", newmessage)
+        client.subscribe("/onlineUsers", updateOnlineUsers)
+
+
+        $(document).ready(() => {
+            $("#submit-btn").click((evt) => {
+
                 evt.preventDefault()
                 const newMessage = $("#new-message").val()
 
                 /**
                  * publish new massage to channel(/messages)
                  */
-                client.publish("/messages", { text: newMessage })
+                client.publish("/messages", {text: newMessage})
             })
-
-            /**
-             * client to SUBSCRIBE
-             * messages coming into the same channel (/messages)
-             */
-            client.subscribe("/messages", newmessage)
         })
+
     </script>
 </head>
 <body>
 <form>
-    <input type="text" id="new-message" placeholder="Your Message Here" />
-    <input type="submit" id="submit-btn" value="Enter" />
+    <input type="text" id="new-message" placeholder="Your Message Here"/>
+    <input type="submit" id="submit-btn" value="Enter"/>
 </form>
 <h4>Messages:</h4>
 <ul id="messages-list">
