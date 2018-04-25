@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<body>
+<head>
+    <script src=' https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js'></script>
+    <style>
+        #messages { height: 300px; width: 300px; overflow: hidden; border: #ccc solid 1px;}
+        section { margin-left: 20px; }
+    </style>
+</head>
+<section>
+    <h1>Chat Client #1</h1>
+    <div id="messages"></div>
+    <textarea rows="1" cols="35" id="chat"></textarea>
+    <input type='button' value='Chat' id='fire' />
+    <script src='/faye/client.js'></script>
+    <script>
+        let $chat = $('#chat');
+        $('#fire').on('click',null, function() {
+            let url = 'http://localhost:8000/message';
+            let message = {message: 'Client 1: ' + $chat.val()};
+            let dataType = 'json';
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: message,
+                dataType: dataType,
+            });
+            $chat.val('');
+        });
+
+        let client = new Faye.Client('/faye',{
+            timeout: 20
+        });
+
+        client.subscribe('/channel', function(message) {
+            $('#messages').append('<p>' + message.text + '</p>');
+        });
+    </script>
+</section>
+</body>
+</html>
