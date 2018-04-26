@@ -21,10 +21,9 @@
     * messages coming into the same channel (/messages)
     */
     client.subscribe("/messages", newmessage)
-    // client.subscribe("/onlineUsers", updateOnlineUsers)
+    client.subscribe("/onlineUsers", updateOnlineUsers)
 
     $(document).ready(() => {
-        client.subscribe("/onlineUsers", updateOnlineUsers)
     $("#submit-btn").click((evt) => {
 
          evt.preventDefault()

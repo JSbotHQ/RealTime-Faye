@@ -1,7 +1,6 @@
 'use strict'
 
 const Controller = require('trails/controller')
-const faye = require('faye');
 
 /**
  * @module ServerController
@@ -9,22 +8,13 @@ const faye = require('faye');
  */
 module.exports = class ServerController extends Controller {
 
-    message(req, res) {
-        const bayeux = new faye.NodeAdapter({mount: '/faye', timeout: 45});
-        bayeux.getClient().publish('/channel', {text: req.body.message});
-        res.send(200);
-    };
-
-    chat(req,res){
-        return res.sendFile('client.html', {root: './public'});
+    chat(req, res) {
+        return res.sendFile('chat.html', {root: './public'});
     }
 
-    client1(req,res){
-        return res.sendFile('client1.html', {root: './public'});
+    group(req, res) {
+        return res.sendFile('group.html', {root: './public'});
     }
 
-    client2(req,res){
-        return res.sendFile('client2.html', {root: './public'});
-    }
 }
 

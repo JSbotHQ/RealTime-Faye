@@ -18,14 +18,15 @@ module.exports = class ServerService extends Service {
 
     socketInit(http) {
 
-        const server = http
+        this.http = http
 
         const bayeux = new this.faye.NodeAdapter({mount: '/faye', timeout: 45});
 
         const client = new this.faye.Client('http://localhost:8000/faye')
 
-        const newmessage = (newMessage) => {
-            console.log("New Message: ", newMessage)
+        const newmessage = (msg) => {
+            console.log("New Message: ", msg)
+            client.publish('/message', msg.message)
         }
 
         /**
@@ -33,7 +34,7 @@ module.exports = class ServerService extends Service {
          * messages coming into the same CHANNEL (/messages)
          */
 
-        client.subscribe(`/messages`, newmessage);
+        client.subscribe(`/message-serv`, newmessage);
 
         let connected_clients = []
         bayeux.on(`handshake`, (clientId) => {
@@ -50,9 +51,19 @@ module.exports = class ServerService extends Service {
             console.log(`disconnected`, clientId)
         })
 
-        bayeux.attach(server);
-
+        bayeux.attach(http);
     }
 
+    client(message) {
 
+        let http = this.http
+
+        let bayeux = new this.faye.NodeAdapter({
+            mount:    '/faye',
+            timeout:  45
+        });
+        bayeux.getClient().publish('/channel',{text: message});
+
+        bayeux.attach(http);
+    }
 }

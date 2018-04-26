@@ -26,6 +26,7 @@ module.exports = {
    */
   paths: {
     root: path.resolve(__dirname, '..'),
-    temp: path.resolve(__dirname, '..', '.tmp')
+    temp: path.resolve(__dirname, '..', '.tmp'),
+    www: path.resolve(__dirname, '..', 'public')
   }
 }
