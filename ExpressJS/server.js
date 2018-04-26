@@ -6,7 +6,6 @@ const http = require('http'),
 const bodyParser = require ('body-parser'),
       morgan = require ('morgan');
 const server = http.createServer(app),
-
       bayeux = new faye.NodeAdapter({mount: '/faye', timeout: 45});
 
 app.use(morgan());

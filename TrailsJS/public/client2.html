@@ -33,7 +33,7 @@
             timeout: 20
         });
 
-        client.subscribe('/channel', (message)=> {
+        client.subscribe('/channel', function(message) {
             $('#messages').append('<p>' + message.text + '</p>');
         });
     </script>
