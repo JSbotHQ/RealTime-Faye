@@ -36,6 +36,10 @@ module.exports = class ServerService extends Service {
 
         client.subscribe(`/message-serv`, newmessage);
 
+        /**
+         * get connected Clients
+         * @type {Array}
+         */
         let connected_clients = []
         bayeux.on(`handshake`, (clientId) => {
             connected_clients.push(clientId)
@@ -43,6 +47,10 @@ module.exports = class ServerService extends Service {
             client.publish(`/onlineUsers`, {text: connected_clients})
         })
 
+
+        /**
+         * Disconnect Client
+         */
         bayeux.on('disconnect', (clientId) => {
             let index = connected_clients.indexOf(clientId);
             if (index > -1) {
@@ -59,10 +67,10 @@ module.exports = class ServerService extends Service {
         let http = this.http
 
         let bayeux = new this.faye.NodeAdapter({
-            mount:    '/faye',
-            timeout:  45
+            mount: '/faye',
+            timeout: 45
         });
-        bayeux.getClient().publish('/channel',{text: message});
+        bayeux.getClient().publish('/channel', {text: message});
 
         bayeux.attach(http);
     }

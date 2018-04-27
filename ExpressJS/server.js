@@ -1,12 +1,12 @@
 const  express = require('express'),
-       app = express()
+    app = express()
 
 const http = require('http'),
-      faye = require('faye');
+    faye = require('faye');
 const bodyParser = require ('body-parser'),
-      morgan = require ('morgan');
+    morgan = require ('morgan');
 const server = http.createServer(app),
-      bayeux = new faye.NodeAdapter({mount: '/faye', timeout: 45});
+    bayeux = new faye.NodeAdapter({mount: '/faye', timeout: 45});
 
 app.use(morgan());
 app.use(bodyParser());

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= Faye Chat Example %></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/faye/client.js"></script>
+    <script>
+
+    const client = new Faye.Client('http://' + window.location.hostname + ':8000/faye')
+
+    const newmessage = (newMessage) => {
+         $("#messages-list").append("<li>" + newMessage.text + "</li>")
+    }
+
+    const updateOnlineUsers = (user) => {
+          $("#online-list").append("<li>" + user.text + "</li>")
+    }
+
+    /**
+    * client to SUBSCRIBE
+    * messages coming into the same channel (/messages)
+    */
+    client.subscribe("/messages", newmessage)
+    client.subscribe("/onlineUsers", updateOnlineUsers)
+
+    $(document).ready(() => {
+    $("#submit-btn").click((evt) => {
+
+         evt.preventDefault()
+
+         const newMessage = $("#new-message").val()
+
+         /**
+         * publish new massage to channel(/messages)
+         */
+         client.publish("/messages", {text: newMessage})
+
+       })
+    })
+    </script>
+</head>
+<body>
+<form>
+    <input type="text" id="new-message" placeholder="Your Message Here"/>
+    <input type="submit" id="submit-btn" value="Enter"/>
+</form>
+<h4>Messages:</h4>
+<ul id="messages-list"></ul>
+
+<h4>Online:</h4>
+<ul id="online-list"></ul>
+</body>
+</html>

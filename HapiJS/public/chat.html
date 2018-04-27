@@ -24,13 +24,16 @@
     <input type='button' value='Chat' id='fire'/>
     <script src='/faye/client.js'></script>
     <script>
+
+
         let client = new Faye.Client('/faye', {
             timeout: 20
         });
+
         let $chat = $('#chat');
         let $fayeid = $('#fayeid');
         $('#fire').on('click', null, function () {
-          client.publish('/message-serv',{ message: $chat.val(), id: $fayeid.val() } )
+          client.publish('/message-serve',{ message: $chat.val(), id: $fayeid.val() } )
         });
         client.subscribe('/message', (message) => {
             $('#messages').append('<p>' + message + '</p>');

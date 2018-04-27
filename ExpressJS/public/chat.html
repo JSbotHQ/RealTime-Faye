@@ -24,9 +24,12 @@
     <input type='button' value='Chat' id='fire'/>
     <script src='/faye/client.js'></script>
     <script>
+
+
         let client = new Faye.Client('/faye', {
             timeout: 20
         });
+
         let $chat = $('#chat');
         let $fayeid = $('#fayeid');
         $('#fire').on('click', null, function () {

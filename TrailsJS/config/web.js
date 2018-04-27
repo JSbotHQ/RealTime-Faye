@@ -37,7 +37,7 @@ module.exports = {
       ],
 
     bodyParser:bodyParser(),
-    morgan:morgan()
+    morgan:morgan(),
     /**
      * Middlewares to load for body parsing
     bodyParser: [
