@@ -10,24 +10,26 @@ const server = http.createServer(app),
 
 app.use(morgan());
 app.use(bodyParser());
-app.use(express.static(__dirname + '/public'))
+
 
 const client = new faye.Client('http://localhost:8000/faye')
 
-app.post('/message', function(req, res) {
-    bayeux.getClient().publish('/channel', {text: req.body.message});
-    res.send(200);
-});
+// app.post('/message', function(req, res) {
+//     bayeux.getClient().publish('/channel', {text: req.body.message});
+//     res.send(200);
+// });
 
-const newmessage = (newMessage) => {
-    console.log("New Message: ", newMessage)
+const newmessage = (msg) => {
+    console.log("New Message: ", msg)
+    client.publish('/message', msg.message)
 }
+
 
 /**
  * client to SUBSCRIBE (listen in server)
  * messages coming into the same CHANNEL (/messages)
  */
-client.subscribe(`/messages`, newmessage);
+client.subscribe(`/message-serv`, newmessage);
 
 let connected_clients = []
 bayeux.on(`handshake`,(clientId)=> {
@@ -43,6 +45,16 @@ bayeux.on('disconnect',(clientId)=> {
     }
     console.log(`disconnected`,clientId)
 })
+
+// Routes for private chat(peer to peer)
+app.get('/chat', (req, res)=>{
+    res.sendFile('chat.html', {root: './public'});
+});
+
+// Route for group chat (room chat)
+app.get('/group', (req, res)=> {
+    res.sendFile('group.html', {root: './public'});
+});
 
 bayeux.attach(server);
 
