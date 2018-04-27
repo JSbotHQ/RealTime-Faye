@@ -30,13 +30,17 @@
             timeout: 20
         });
 
+        //
+        // let clientId = (client && client._dispatcher && client._dispatcher.clientId) ? client._dispatcher.clientId : null;
+        // console.log(`clientId`,client)
+
         let $chat = $('#chat');
         let $fayeid = $('#fayeid');
         $('#fire').on('click', null, function () {
           client.publish('/message-serv',{ message: $chat.val(), id: $fayeid.val() } )
         });
-        client.subscribe('/message', (message) => {
-            $('#messages').append('<p>' + message + '</p>');
+        client.subscribe('/message'+$fayeid.val(), (message) => {
+             $('#messages').append('<p>' + message + '</p>');
         });
 
     </script>

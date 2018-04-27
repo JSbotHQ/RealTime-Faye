@@ -1,5 +1,6 @@
 const  express = require('express'),
     app = express()
+const _ = require('lodash')
 
 const http = require('http'),
     faye = require('faye');
@@ -21,9 +22,18 @@ const client = new faye.Client('http://localhost:8000/faye')
 
 const newmessage = (msg) => {
     console.log("New Message: ", msg)
-    client.publish('/message', msg.message)
+    //client.publish('/message', msg.message)
+    if (_.includes(connected_clients,msg.id)){
+        client.publish('/message', msg.message)
+    }
 }
 
+let connected_clients = []
+const client_id = (clientId)=> {
+    connected_clients.push(clientId)
+    console.log(`connected`,connected_clients)
+    client.publish(`/onlineUsers`,{text: connected_clients})
+}
 
 /**
  * client to SUBSCRIBE (listen in server)
@@ -31,12 +41,7 @@ const newmessage = (msg) => {
  */
 client.subscribe(`/message-serv`, newmessage);
 
-let connected_clients = []
-bayeux.on(`handshake`,(clientId)=> {
-    connected_clients.push(clientId)
-    console.log(`connected`,connected_clients)
-    client.publish(`/onlineUsers`,{text: connected_clients})
-})
+bayeux.on(`handshake`,client_id)
 
 bayeux.on('disconnect',(clientId)=> {
     let index = connected_clients.indexOf(clientId);
