@@ -11,18 +11,18 @@ const server = http.createServer(app),
 
 app.use(morgan());
 app.use(bodyParser());
-
+app.use(express.static(__dirname + '/public'));
 
 const client = new faye.Client('http://localhost:8000/faye')
 
-// app.post('/message', function(req, res) {
-//     bayeux.getClient().publish('/channel', {text: req.body.message});
-//     res.send(200);
-// });
+app.post('/message', function(req, res) {
+    bayeux.getClient().publish('/channel', {text: req.body.message});
+    res.send(200);
+});
 
 const newmessage = (msg) => {
     console.log("New Message: ", msg)
-    //client.publish('/message', msg.message)
+    client.publish('/message', msg.message)
     if (_.includes(connected_clients,msg.id)){
         client.publish('/message', msg.message)
     }
@@ -40,7 +40,6 @@ const client_id = (clientId)=> {
  * messages coming into the same CHANNEL (/messages)
  */
 client.subscribe(`/message-serv`, newmessage);
-
 bayeux.on(`handshake`,client_id)
 
 bayeux.on('disconnect',(clientId)=> {

@@ -20,6 +20,7 @@
     var params = new URLSearchParams(window.location.search.slice(1))
     var room = params.get('room')
     let client = new Faye.Client('/faye', { timeout: 20 });
+
     client.subscribe('/'+room, (msg)=>{
         $('#messages').append($('<li>').text(msg.message));
     });
