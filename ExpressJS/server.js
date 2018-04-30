@@ -6,8 +6,19 @@ const http = require('http'),
     faye = require('faye');
 const bodyParser = require ('body-parser'),
     morgan = require ('morgan');
+const fayeRedis = require('faye-redis');
 const server = http.createServer(app),
-    bayeux = new faye.NodeAdapter({mount: '/faye', timeout: 45});
+    bayeux = new faye.NodeAdapter({mount: '/faye', timeout: 45
+        engine:   {
+            type:   fayeRedis,
+            host:   'localhost',
+            port:   6379
+        }
+    });
+
+bayeux.create(proxy, message){
+
+}
 
 app.use(morgan());
 app.use(bodyParser());

@@ -4,38 +4,9 @@
   - `cd ExpressJS`
   - start the server by `npm start`.
 
-  i. server to all connected client messaging
-   - go to `http://localhost:8000/client1.html`.
-   - go to `http://localhost:8000/client2.html`.
+  i. client to client messaging using server
 
-  client code logic:
-
-        $('#fire').on('click',null, function() {
-                   let url = 'http://localhost:8000/message';
-                   let message = {message: 'Client 1: ' + $chat.val()};
-                   let dataType = 'json';
-                   $.ajax({
-                       type: 'POST',
-                       url: url,
-                       data: message,
-                       dataType: dataType,
-                   });
-                   $chat.val('');
-        });
-
-        client.subscribe('/channel', function(message) {
-              $('#messages').append('<p>' + message.text + '</p>');
-        });
-
-  server code logic:
-
-        app.post('/message', function(req, res) {
-            bayeux.getClient().publish('/channel', {text: req.body.message});
-            res.send(200);
-        });
-
-  ii. client to client messaging using server
-   - go to `http://localhost:8000/client.html
+   - go to `http://localhost:8000/client.html`
    - here you can send message to all client
 
    client code logic:
@@ -70,7 +41,8 @@
     client.subscribe(`/messages`, newmessage);
 
 
-  iii. room messaging
+  ii. room messaging
+
    - go to `http://localhost:8000/group?room={name}`.
    - here you can enter any room name of your choice.
    - now send message to this room and it will be received by all clients in the channel.
@@ -93,6 +65,7 @@
    - start the server by `npm start`.
 
    i. client to client messaging
+
     - go to `http://localhost:8000/client.html`.
 
    client code logic:
@@ -155,6 +128,7 @@
    - start the server by `npm start`.
 
    i. client to client messaging
+
     - go to `http://localhost:8000/client.html`.
     - you can send message by clicking on any online client from right panel.
 
@@ -194,6 +168,7 @@
    client.subscribe(`/messages`, newmessage);
 
    ii. room messaging
+
     - go to `http://localhost:8000/group?room={name}`.
     - here you can enter any room name of your choice.
     - now send message to this room and it will be received by all clients in the channel.
