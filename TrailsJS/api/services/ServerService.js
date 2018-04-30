@@ -24,53 +24,47 @@ module.exports = class ServerService extends Service {
 
         const client = new this.faye.Client('http://localhost:8000/faye')
 
+        ////HANDLERS
+        /**
+         * get new message in serverside and publish to user
+         * @param msg
+         */
         const newmessage = (msg) => {
             console.log("New Message: ", msg)
             client.publish('/message', msg.message)
         }
 
         /**
-         * client to SUBSCRIBE (listen in server)
-         * messages coming into the same CHANNEL (/messages)
-         */
-
-        client.subscribe(`/message-serv`, newmessage);
-
-        /**
-         * get connected Clients
+         * connected users
          * @type {Array}
          */
         let connected_clients = []
-        bayeux.on(`handshake`, (clientId) => {
+        const connected = (clientId) => {
             connected_clients.push(clientId)
             console.log(`connected`, connected_clients)
             client.publish(`/onlineUsers`, {text: connected_clients})
-        })
-
+        }
 
         /**
-         * Disconnect Client
+         * disconnected user
+         * @param clientId
          */
-        bayeux.on('disconnect', (clientId) => {
+        let disconnected = (clientId) => {
             let index = connected_clients.indexOf(clientId);
             if (index > -1) {
                 connected_clients.splice(index, 1);
             }
             console.log(`disconnected`, clientId)
-        })
+        }
 
-        bayeux.attach(http);
-    }
+        /**
+         * client to SUBSCRIBE (listen in server)
+         * messages coming into the same CHANNEL (/messages)
+         */
+        client.subscribe(`/message-serv`, newmessage);
 
-    client(message) {
-
-        let http = this.http
-
-        let bayeux = new this.faye.NodeAdapter({
-            mount: '/faye',
-            timeout: 45
-        });
-        bayeux.getClient().publish('/channel', {text: message});
+        bayeux.on(`handshake`, connected)
+        bayeux.on('disconnect',disconnected)
 
         bayeux.attach(http);
     }

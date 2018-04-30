@@ -37,23 +37,48 @@ const newmessage = (msg) => {
 }
 
 
-client.subscribe(`/message-serve`, newmessage);
+////HANDLERS
+/**
+ * get new message in serverside and publish to user
+ * @param msg
+ */
+const newmessage = (msg) => {
+    console.log("New Message: ", msg)
+    client.publish('/message', msg.message)
+}
 
+/**
+ * connected users
+ * @type {Array}
+ */
 let connected_clients = []
-
-bayeux.on(`handshake`, (clientId) => {
+const connected = (clientId) => {
     connected_clients.push(clientId)
     console.log(`connected`, connected_clients)
     client.publish(`/onlineUsers`, {text: connected_clients})
-})
+}
 
-bayeux.on('disconnect', (clientId) => {
+/**
+ * disconnected user
+ * @param clientId
+ */
+let disconnected = (clientId) => {
     let index = connected_clients.indexOf(clientId);
     if (index > -1) {
         connected_clients.splice(index, 1);
     }
     console.log(`disconnected`, clientId)
-})
+}
+
+/**
+ * client to SUBSCRIBE (listen in server)
+ * messages coming into the same CHANNEL (/messages)
+ */
+client.subscribe(`/message-serv`, newmessage);
+
+bayeux.on(`handshake`, connected)
+bayeux.on('disconnect',disconnected)
+
 
 
 // Serve static file
