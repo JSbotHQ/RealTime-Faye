@@ -151,6 +151,7 @@
     client.subscribe(`/messages`, newmessage);
 
    ii. room messaging
+
     - go to `http://localhost:8000/group?room={name}`.
     - here you can enter any room name of your choice.
     - now send message to this room and it will be received by all clients in the channel.
