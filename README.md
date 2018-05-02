@@ -168,3 +168,5 @@
           $('#m').val('');
           return false;
     }
+
+note: Faye session may not have a one-to-one relationship with an entity.
