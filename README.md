@@ -68,7 +68,7 @@
 
     - go to `http://localhost:8000/client.html`.
 
-    client code logic:
+   client code logic:
 
      $(document).ready(() => {
        $("#submit-btn").click((evt) => {
@@ -89,7 +89,7 @@
      client.subscribe("/messages", newmessage)
      client.subscribe("/onlineUsers", updateOnlineUsers)
 
-    server code logic:
+   server code logic:
 
      const newmessage = (newMessage) => {
         console.log("New Message: ", newMessage)
