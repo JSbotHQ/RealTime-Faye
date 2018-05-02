@@ -31,12 +31,6 @@ const client = new faye.Client('http://localhost:8000/faye')
 // Faye via Hapi
 bayeux.attach(server.listener);
 
-const newmessage = (msg) => {
-    console.log("New Message: ", msg)
-    client.publish('/message', msg.message)
-}
-
-
 ////HANDLERS
 /**
  * get new message in serverside and publish to user
@@ -86,7 +80,7 @@ bayeux.on('disconnect',disconnected)
 server.route({
     method: 'GET',
     path: '/chat',
-    handler: (request, h) => h.file('./public/chat.html')
+    handler: (request, h) => h.file('./public/client.html')
 });
 server.route({
     method: 'GET',

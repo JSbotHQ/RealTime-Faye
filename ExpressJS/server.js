@@ -8,7 +8,6 @@ const http = require('http'),
 const bodyParser = require ('body-parser'),
       morgan = require ('morgan');
 
-const fayeRedis = require('faye-redis');
 const server = http.createServer(app),
 
 bayeux = new faye.NodeAdapter({ mount: '/faye', timeout: 45 });
@@ -73,7 +72,7 @@ bayeux.on('disconnect',disconnected)
 
 // Routes for private chat(peer to peer)
 app.get('/chat', (req, res)=>{
-    res.sendFile('chat.html', {root: './public'});
+    res.sendFile('client.html', {root: './public'});
 });
 
 // Route for group chat (room chat)

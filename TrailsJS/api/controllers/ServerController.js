@@ -15,7 +15,7 @@ module.exports = class ServerController extends Controller {
      * @param res
      */
     chat(req, res) {
-        return res.sendFile('chat.html', {root: './public'});
+        return res.sendFile('client.html', {root: './public'});
     }
 
     /**
