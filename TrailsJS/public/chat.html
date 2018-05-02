@@ -30,7 +30,7 @@
         let $chat = $('#chat');
         let $fayeid = $('#fayeid');
         $('#fire').on('click', null, function () {
-          client.publish('/message-serv',{ message: $chat.val(), id: $fayeid.val() } )
+            client.publish('/message-serv', {message: $chat.val(), id: $fayeid.val()})
         });
         client.subscribe('/message', (message) => {
             $('#messages').append('<p>' + message + '</p>');
