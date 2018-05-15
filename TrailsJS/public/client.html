@@ -6,7 +6,7 @@
     <script src="/faye/client.js"></script>
     <script>
 
-        const client = new Faye.Client('http://' + window.location.hostname + ':8000/faye')
+        const client = new Faye.Client('http://' + window.location.hostname + ':4003/faye')
 
         const newmessage = (newMessage) => {
             $("#messages-list").append("<li>" + newMessage.text + "</li>")

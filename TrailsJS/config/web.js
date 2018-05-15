@@ -68,7 +68,7 @@ module.exports = {
   /**
    * The port to bind the web server to
    */
-  port: process.env.PORT || 8000,
+  port: process.env.PORT || 4003,
 
   /**
    * The host to bind the web server to
