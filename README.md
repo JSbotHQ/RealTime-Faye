@@ -6,7 +6,7 @@
 
   i. client to client messaging using server
 
-   - go to `http://localhost:8000/client.html`
+   - go to `http://localhost:4003/client.html`
    - here you can send message to all client
 
    client code logic:
@@ -43,7 +43,7 @@
 
   ii. room messaging
 
-   - go to `http://localhost:8000/group?room={name}`.
+   - go to `http://localhost:4003/group?room={name}`.
    - here you can enter any room name of your choice.
    - now send message to this room and it will be received by all clients in the channel.
 
@@ -66,7 +66,7 @@
 
   i. client to client messaging
 
-    - go to `http://localhost:8000/client.html`.
+    - go to `http://localhost:4003/client.html`.
 
    client code logic:
 
@@ -98,7 +98,7 @@
 
 
    ii. room messaging
-   - go to `http://localhost:8000/group?room={name}`.
+   - go to `http://localhost:4003/group?room={name}`.
    - here you can enter any room name of your choice.
    - now send message to this room and it will be received by all clients in the channel.
 
@@ -120,7 +120,7 @@
    - start the server by `npm start`.
 
    i. client to client messaging
-    - go to `http://localhost:8000/client.html`.
+    - go to `http://localhost:4003/client.html`.
     - you can send message by clicking on any online client from right panel.
 
    client code logic:
@@ -152,7 +152,7 @@
 
    ii. room messaging
 
-    - go to `http://localhost:8000/group?room={name}`.
+    - go to `http://localhost:4003/group?room={name}`.
     - here you can enter any room name of your choice.
     - now send message to this room and it will be received by all clients in the channel.
 
