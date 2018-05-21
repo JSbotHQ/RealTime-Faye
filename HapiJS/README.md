@@ -1,6 +1,6 @@
 # RealTime-Faye
 
-#3. TrailsJS
+#2. HapiJS
 
   i. client to client messaging using server
 
